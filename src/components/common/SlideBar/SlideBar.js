@@ -8,67 +8,72 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import Draggable from '../Draggable/Draggable';
 
 const SlideBar = ({ items, activeId, handleClick, viewportAmounts }) => {
-  const viewport = useSelector(getViewport);
+  // const viewport = useSelector(getViewport);
 
-  let amountOfItems = 6;
-  amountOfItems = viewportAmounts ? viewportAmounts[viewport] : 6;
+  // let amountOfItems = 6;
+  // amountOfItems = viewportAmounts ? viewportAmounts[viewport] : 6;
 
-  const activeItemIndex = items.findIndex(item => item.id === activeId);
+  // const activeItemIndex = items.findIndex(item => item.id === activeId);
 
-  const initialFirstItemIndex = Math.max(
-    activeItemIndex - Math.floor(amountOfItems / 2),
-    0
-  );
+  // const initialFirstItemIndex = Math.max(
+  //   activeItemIndex - Math.floor(amountOfItems / 2),
+  //   0
+  // );
 
-  const [currentFirstItemIndex, setCurrentFirstItemIndex] = useState(
-    initialFirstItemIndex
-  );
-  const [fade, setFade] = useState(styles.fadeIn);
+  const [offsetX, setOffsetX] = useState(0);
+  // const [currentFirstItemIndex, setCurrentFirstItemIndex] = useState(
+  //   initialFirstItemIndex
+  // );
+  // const [fade, setFade] = useState(styles.fadeIn);
 
-  const fadeSlideChange = id => {
-    setFade(styles.fadeOut);
-    setTimeout(() => {
-      setCurrentFirstItemIndex(id);
-      setFade(styles.fadeIn);
-    }, 500);
-  };
+  // const fadeSlideChange = id => {
+  //   setFade(styles.fadeOut);
+  //   setTimeout(() => {
+  //     setCurrentFirstItemIndex(id);
+  //     setFade(styles.fadeIn);
+  //   }, 500);
+  // };
 
   const moveRight = () => {
-    const nextFirstItemIndex = Math.min(
-      currentFirstItemIndex + amountOfItems,
-      items.length - amountOfItems
-    );
-    fadeSlideChange(nextFirstItemIndex);
+    // const nextFirstItemIndex = Math.min(
+    //   currentFirstItemIndex + amountOfItems,
+    //   items.length - amountOfItems
+    // );
+    // fadeSlideChange(nextFirstItemIndex);
+    setOffsetX(offsetX - 250);
   };
 
   const moveLeft = () => {
-    const nextFirstItemIndex = Math.max(currentFirstItemIndex - amountOfItems, 0);
-    fadeSlideChange(nextFirstItemIndex);
+    // const nextFirstItemIndex = Math.max(currentFirstItemIndex - amountOfItems, 0);
+    // fadeSlideChange(nextFirstItemIndex);
+    setOffsetX(offsetX + 250);
   };
 
-  const lastItemIndex = Math.min(
-    currentFirstItemIndex + amountOfItems,
-    items.length - 1
-  );
+  // const lastItemIndex = Math.min(
+  //   currentFirstItemIndex + amountOfItems,
+  //   items.length - 1
+  // );
 
   return (
     <div className={styles.root}>
       <div className='container'>
-        <Swipeable leftAction={moveLeft} rightAction={moveRight}>
-          <div className={styles.panelBar}>
-            <button
-              className=''
-              onClick={e => {
-                e.preventDefault();
-                moveLeft();
-              }}
-            >
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </button>
-            <div className={clsx(styles.slide, styles.fade, fade)}>
-              {items.slice(currentFirstItemIndex, lastItemIndex).map(item => (
+        <div className={styles.panelBar}>
+          <button
+            className=''
+            onClick={e => {
+              e.preventDefault();
+              moveLeft();
+            }}
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
+          <Draggable additionalOffsetX={offsetX}>
+            <div className={clsx(styles.slide)}>
+              {// items.slice(currentFirstItemIndex, lastItemIndex).map(item => (
+              items.map(item => (
                 <div
                   key={item.id}
                   className={clsx(
@@ -77,6 +82,7 @@ const SlideBar = ({ items, activeId, handleClick, viewportAmounts }) => {
                   )}
                   onClick={e => {
                     e.preventDefault();
+                    console.log('click on slidebar item');
                     handleClick(item.id);
                   }}
                 >
@@ -85,17 +91,17 @@ const SlideBar = ({ items, activeId, handleClick, viewportAmounts }) => {
                 </div>
               ))}
             </div>
-            <button
-              className=''
-              onClick={e => {
-                e.preventDefault();
-                moveRight();
-              }}
-            >
-              <FontAwesomeIcon icon={faChevronRight} />
-            </button>
-          </div>
-        </Swipeable>
+          </Draggable>
+          <button
+            className=''
+            onClick={e => {
+              e.preventDefault();
+              moveRight();
+            }}
+          >
+            <FontAwesomeIcon icon={faChevronRight} />
+          </button>
+        </div>
       </div>
     </div>
   );
