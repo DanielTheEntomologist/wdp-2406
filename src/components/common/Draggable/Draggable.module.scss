@@ -1,0 +1,14 @@
+@import "../../../styles/settings.scss";
+
+.root {
+  width: fit-content;
+  height: fit-content;
+  transition: all 0.5s ease;
+}
+.dragging {
+  transition: none;
+}
+
+.noPointerEvents * {
+  pointer-events: none;
+}

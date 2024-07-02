@@ -33,18 +33,22 @@ $slidebar-height: 70px;
       right: 0;
     }
     .slide {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-around;
-      overflow-x: hidden;
-      overflow-y: hidden;
+      // display: flex;
+      // flex-direction: row;
+      // align-items: center;
+      // justify-content: flex-start;
+      // overflow-x: hidden;
+      display: block;
+      // fit content width
+      width: fit-content;
+      // overflow: visible;
+      // overflow-y: hidden;
       white-space: nowrap;
       margin-left: 35px;
       margin-right: 35px;
 
       .brandIcon {
-        display: flex;
+        display: inline-block;
         align-items: center;
         justify-content: center;
         margin: 0 5px 0 0;
